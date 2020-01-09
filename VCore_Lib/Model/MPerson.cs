@@ -16,12 +16,12 @@ namespace VCore_Lib.Model
         public string VName
         {
             get { return _VName; }
-            set { if (_VName != value) { _VName = value; RaisePropertyChanged("VName"); } }
+            set { if (_VName != value) { _VName = value; RaisePropertyChanged("VName"); RaisePropertyChanged("FullName"); } }
         }
         public string NName
         {
             get { return _NName; }
-            set { if (_NName != value) { _NName = value; RaisePropertyChanged("NName"); } }
+            set { if (_NName != value) { _NName = value; RaisePropertyChanged("NName"); RaisePropertyChanged("FullName"); } }
         }
         public string Mid 
         { 

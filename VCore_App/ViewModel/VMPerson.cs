@@ -11,7 +11,7 @@ namespace VCore_App.ViewModel
         private MPerson _Selected;
         private ObservableCollection<MPerson> _Value;
 
-        public MPerson Selected { get { return _Selected; } set { _Selected = value; } }
+        public MPerson Selected { get { return _Selected; } set { _Selected = value; DeleteCommand.RaiseCanExecuteChanged(); EditCommand.RaiseCanExecuteChanged(); } }
         public ObservableCollection<MPerson> Value { get { return _Value; } set { _Value = value; } }
 
         public MyICommand DeleteCommand { get; set; }
@@ -20,11 +20,12 @@ namespace VCore_App.ViewModel
 
         public VMPerson()
         {
-            Value = new ObservableCollection<MPerson>();
-            Selected = null;
             DeleteCommand = new MyICommand(DeleteCommand_Click, CanDelete);
             EditCommand = new MyICommand(EditCommand_Click, CanEdit);
             AddCommand = new MyICommand(AddCommand_Click);
+            Value = new ObservableCollection<MPerson>();
+            Selected = null;
+            Load();
         }
 
         private bool CanDelete()
