@@ -1,0 +1,23 @@
+﻿<Window x:Class="VCore_App.Dialog.DPersonAddEdit"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VCore_App.Dialog"
+        mc:Ignorable="d"
+        Title="DPersonAddEdit" Height="175" Width="230">
+    <Grid>
+        <Label Content="Vorname :" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="115,30,0,0" x:Name="VName" TextWrapping="Wrap" VerticalAlignment="Top" Width="100"/>
+        <Label Content="Nachname :" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="115,55,0,0" x:Name="NName" TextWrapping="Wrap" VerticalAlignment="Top" Width="100"/>
+        <Label Content="Mitarbeiter ID :" HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="115,80,0,0" x:Name="Mid" TextWrapping="Wrap" VerticalAlignment="Top" Width="100"/>
+        <Label Content="§34a ID :" HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="115,105,0,0" x:Name="TaughtNr" TextWrapping="Wrap" VerticalAlignment="Top" Width="100"/>
+
+        <Button Content="Speichern" HorizontalAlignment="Left" Margin="10,131,0,0" VerticalAlignment="Top" Width="100" IsDefault="True" Click="Button_Click"/>
+        <Button Content="Âbbrechen" HorizontalAlignment="Left" Margin="115,131,0,0" VerticalAlignment="Top" Width="100" IsCancel="True"/>
+        <Label Content="Personen Add/Edit" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Width="205" FontFamily="Comic Sans MS" FontSize="15" FontWeight="Bold"/>
+    </Grid>
+</Window>

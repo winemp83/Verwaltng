@@ -79,12 +79,29 @@ namespace VCore_App.ViewModel
 
             }
         }
-        public void AddCommand_Click() { }
-        public void EditCommand_Click() { }
+        public void AddCommand_Click() {
+            Dialog.DPersonAddEdit AddPerson = new Dialog.DPersonAddEdit();
+            if (AddPerson.ShowDialog() == true)
+                Value.Add(AddPerson.Value);
+        }
+        public void EditCommand_Click() {
+            Dialog.DPersonAddEdit EditPerson = new Dialog.DPersonAddEdit(Selected);
+            if (EditPerson.ShowDialog() == true)
+            {
+                Selected = EditPerson.Value;
+                for (int i = 0; i < Value.Count; i++)
+                {
+                    if (Value[i].Id == Selected.Id)
+                    {
+                        Value[i] = Selected;
+                        break;
+                    }
+                }
+            }
+        }
         public void DeleteCommand_Click()
         {
             Value.Remove(Selected);
-            Selected = null;
         }
     }
 }
