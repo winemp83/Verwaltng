@@ -8,8 +8,14 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="1024">
     <Grid>
-
+        <StackPanel Orientation="Vertical">
+        <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_File">
+                    <MenuItem Header="_Exit" Click="MenuItem_Click"/>
+            </MenuItem>
+        </Menu>
         <View:UCPersonList />
+        </StackPanel>
 
     </Grid>
 </Window>

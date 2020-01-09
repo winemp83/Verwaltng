@@ -48,7 +48,20 @@
         </DataTemplate>
     </UserControl.Resources>
     <Grid>
-        <StackPanel Orientation="Horizontal">
+        <StackPanel Orientation="Vertical">
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_Angestellte">
+                    <MenuItem Header="_Neu" Command = "{Binding AddCommand}"/>
+                    <MenuItem Header="_Bearbeiten" Command="{Binding EditCommand}"/>
+                    <MenuItem Header="_Löschen" Command="{Binding DeleteCommand}"/>
+                </MenuItem>
+                <MenuItem Header="_Stunden">
+                    <MenuItem Header="_Neu" Command = "{Binding AddStundenCommand}"/>
+                    <MenuItem Header="_Bearbeiten" Command="{Binding EditStundenCommand}"/>
+                    <MenuItem Header="_Löschen" Command="{Binding DeleteStundenCommand}"/>
+                </MenuItem>
+            </Menu>
+            <StackPanel Orientation="Horizontal">
         <StackPanel Orientation = "Horizontal">
             <ListBox ItemsSource = "{Binding Value}"
                      ItemTemplate="{StaticResource personTemplate}"
@@ -92,6 +105,7 @@
                     VerticalAlignment = "Top" 
                     Width = "75" />
             </StackPanel>
+        </StackPanel>
         </StackPanel>
         </StackPanel>
     </Grid>

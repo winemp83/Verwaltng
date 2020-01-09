@@ -8,7 +8,7 @@ using VCore_Lib.Model;
 
 namespace VCore_Lib.Database.Xml
 {
-    public class DBPerson
+    public class DBPerson : IDBPerson
     {
         private readonly string _MainName = "PersonDetail";
         private readonly string _SubName = "Person";
@@ -20,21 +20,25 @@ namespace VCore_Lib.Database.Xml
         private XmlDocument _XDoc;
         private FileStream _Stream;
 
-        public string FileName { 
+        public string FileName
+        {
             get { return _FileName; }
-            set {
+            set
+            {
                 _FileName = value;
                 _FilePath = $@"{Directory.GetCurrentDirectory()}\{_FileName}.xml";
             }
         }
 
-        public DBPerson(string filename = "xdb") {
+        public DBPerson(string filename = "xdb")
+        {
             FileName = filename;
             if (!File.Exists(_FilePath))
                 Create();
         }
 
-        private void Create() {
+        private void Create()
+        {
             _Xml = new XmlTextWriter(_FilePath, Encoding.UTF8);
             _Xml.WriteStartDocument();
             _Xml.WriteStartElement(_MainName);
@@ -42,7 +46,8 @@ namespace VCore_Lib.Database.Xml
             _Xml.Close();
         }
 
-        public void AddStunden(MStunden stunden, MPerson person) {
+        public void AddStunden(MStunden stunden, MPerson person)
+        {
             _XDoc = new XmlDocument();
             _Stream = new FileStream(_FilePath, FileMode.Open);
             _XDoc.Load(_Stream);
@@ -64,7 +69,8 @@ namespace VCore_Lib.Database.Xml
             _Stream.Close();
             _XDoc.Save(_FilePath);
         }
-        public void UpdateStunden(MStunden stunden) {
+        public void UpdateStunden(MStunden stunden)
+        {
             _XDoc = new XmlDocument();
             _Stream = new FileStream(_FilePath, FileMode.Open);
             _XDoc.Load(_Stream);
@@ -106,7 +112,8 @@ namespace VCore_Lib.Database.Xml
             _Stream.Close();
             _XDoc.Save(_FilePath);
         }
-        public ObservableCollection<MStunden> LoadStunden(MPerson value) {
+        public ObservableCollection<MStunden> LoadStunden(MPerson value)
+        {
             ObservableCollection<MStunden> result = new ObservableCollection<MStunden>();
             _XDoc = new XmlDocument();
             FileStream Stream = new FileStream(_FilePath, FileMode.Open);
@@ -118,7 +125,8 @@ namespace VCore_Lib.Database.Xml
                 if (cl.GetAttribute("Id").Equals(value.Id))
                 {
                     XmlNodeList l = cl.ChildNodes;
-                    for(int j = 0; j < l.Count; j++) {
+                    for (int j = 0; j < l.Count; j++)
+                    {
                         XmlElement ca = (XmlElement)cl.GetElementsByTagName(_SubStunden)[i];
                         result.Add(new MStunden()
                         {
@@ -135,8 +143,8 @@ namespace VCore_Lib.Database.Xml
         }
         public void Add(MPerson value)
         {
-            _XDoc= new XmlDocument();
-            _Stream= new FileStream(_FilePath, FileMode.Open);
+            _XDoc = new XmlDocument();
+            _Stream = new FileStream(_FilePath, FileMode.Open);
             _XDoc.Load(_Stream);
             XmlElement cl = _XDoc.CreateElement(_SubName);
             cl.SetAttribute("Id", value.Id);
@@ -148,13 +156,15 @@ namespace VCore_Lib.Database.Xml
             _Stream.Close();
             _XDoc.Save(_FilePath);
         }
-        public ObservableCollection<MPerson> Load() {
+        public ObservableCollection<MPerson> Load()
+        {
             ObservableCollection<MPerson> result = new ObservableCollection<MPerson>();
             _XDoc = new XmlDocument();
             _Stream = new FileStream(_FilePath, FileMode.Open);
             _XDoc.Load(_Stream);
             XmlNodeList list = _XDoc.GetElementsByTagName(_SubName);
-            for(int i = 0; i < list.Count; i++) {
+            for (int i = 0; i < list.Count; i++)
+            {
                 XmlElement cl = (XmlElement)_XDoc.GetElementsByTagName(_SubName)[i];
                 MPerson r = new MPerson()
                 {
@@ -165,7 +175,8 @@ namespace VCore_Lib.Database.Xml
                     TaughtNr = cl.GetAttribute("TaughtNr"),
                     Stunden = new ObservableCollection<MStunden>()
                 };
-                for(int j = 0; j < cl.ChildNodes.Count; j++) {
+                for (int j = 0; j < cl.ChildNodes.Count; j++)
+                {
                     XmlElement ca = (XmlElement)cl.ChildNodes[j];
                     r.Stunden.Add(new MStunden()
                     {
@@ -173,14 +184,15 @@ namespace VCore_Lib.Database.Xml
                         Start = ca.GetAttribute("Start"),
                         Ende = ca.GetAttribute("Ende"),
                         Pause = ca.GetAttribute("Pause")
-                    }) ;
+                    });
                 }
                 result.Add(r);
             }
             _Stream.Close();
             return result;
         }
-        public void Update(MPerson value) {
+        public void Update(MPerson value)
+        {
             _XDoc = new XmlDocument();
             _Stream = new FileStream(_FilePath, FileMode.Open);
             _XDoc.Load(_Stream);
@@ -188,7 +200,8 @@ namespace VCore_Lib.Database.Xml
             for (int i = 0; i < list.Count; i++)
             {
                 XmlElement cl = (XmlElement)_XDoc.GetElementsByTagName(_SubName)[i];
-                if (value.Id.Equals(cl.GetAttribute("Id"))) {
+                if (value.Id.Equals(cl.GetAttribute("Id")))
+                {
                     cl.SetAttribute("VName", value.VName);
                     cl.SetAttribute("NName", value.NName);
                     cl.SetAttribute("Mid", value.Mid);
@@ -199,7 +212,8 @@ namespace VCore_Lib.Database.Xml
             _Stream.Close();
             _XDoc.Save(_FilePath);
         }
-        public void Delete(MPerson value) {
+        public void Delete(MPerson value)
+        {
             _XDoc = new XmlDocument();
             _Stream = new FileStream(_FilePath, FileMode.Open);
             _XDoc.Load(_Stream);

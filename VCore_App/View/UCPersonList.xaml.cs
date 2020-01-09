@@ -23,5 +23,6 @@ namespace VCore_App.View
             InitializeComponent();
             this.DataContext = new ViewModel.VMPerson();
         }
+
     }
 }

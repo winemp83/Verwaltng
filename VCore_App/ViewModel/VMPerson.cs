@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Collections.ObjectModel;
 using VCore_Lib.Database.Xml;
+using System.ComponentModel;
+using VCore_Lib;
 
 namespace VCore_App.ViewModel
 {
@@ -11,14 +13,14 @@ namespace VCore_App.ViewModel
     {
         private MPerson _Selected;
         private MStunden _SelectedStunde;
-        private ObservableCollection<MPerson> _Value;
-        private ObservableCollection<MStunden> _ValueStunde;
+        private SortableBindingList<MPerson> _Value;
+        private SortableBindingList<MStunden> _ValueStunde;
         private readonly DBPerson _DB;
 
-        public MPerson Selected { get { return _Selected; } set { _Selected = value; ValueStunden.Clear(); LoadStunden(_Selected); DeleteCommand.RaiseCanExecuteChanged(); EditCommand.RaiseCanExecuteChanged(); } }
+        public MPerson Selected { get { return _Selected; } set { _Selected = value; ValueStunden.Clear(); LoadStunden(_Selected); AddStundenCommand.RaiseCanExecuteChanged(); DeleteCommand.RaiseCanExecuteChanged(); EditCommand.RaiseCanExecuteChanged(); } }
         public MStunden SelectedStunden { get { return _SelectedStunde; } set { _SelectedStunde = value; DeleteStundenCommand.RaiseCanExecuteChanged(); EditStundenCommand.RaiseCanExecuteChanged(); } }
-        public ObservableCollection<MPerson> Value { get { return _Value; } set { _Value = value; } }
-        public ObservableCollection<MStunden> ValueStunden { get { return _ValueStunde; } set { _ValueStunde = value; } }
+        public SortableBindingList<MPerson> Value { get { return _Value; } set { _Value = value; } }
+        public SortableBindingList<MStunden> ValueStunden { get { return _ValueStunde; } set { _ValueStunde = value; } }
 
         public MyICommand DeleteCommand { get; set; }
         public MyICommand EditCommand { get; set; }
@@ -31,12 +33,12 @@ namespace VCore_App.ViewModel
         {
             DeleteStundenCommand = new MyICommand(DeleteStundenCommand_Click, CanStundenDelete);
             EditStundenCommand = new MyICommand(EditStundenCommand_Click, CanStundenEdit);
-            AddStundenCommand = new MyICommand(AddStundenCommand_Click);
+            AddStundenCommand = new MyICommand(AddStundenCommand_Click, CanEdit);
             DeleteCommand = new MyICommand(DeleteCommand_Click, CanDelete);
             EditCommand = new MyICommand(EditCommand_Click, CanEdit);
             AddCommand = new MyICommand(AddCommand_Click);
-            Value = new ObservableCollection<MPerson>();
-            ValueStunden = new ObservableCollection<MStunden>();
+            Value = new SortableBindingList<MPerson>();
+            ValueStunden = new SortableBindingList<MStunden>();
             Selected = null;
             SelectedStunden = null;
             _DB = new DBPerson();
@@ -121,17 +123,33 @@ namespace VCore_App.ViewModel
         }
         public void AddStundenCommand_Click()
         {
-
+            Dialog.DStundenAddEdit AddStunden = new Dialog.DStundenAddEdit();
+            if (AddStunden.ShowDialog() == true)
+                _DB.AddStunden(AddStunden.Value, Selected);
+            Load();
+            Selected = null;
+            SelectedStunden = null;
         }
         public void AddCommand_Click() {
             Dialog.DPersonAddEdit AddPerson = new Dialog.DPersonAddEdit();
             if (AddPerson.ShowDialog() == true)
                 _DB.Add(AddPerson.Value);
-            Load();
+            ValueStunden.Clear();
+            LoadStunden(Selected);
+            Selected = null;
+            SelectedStunden = null;
         }
         public void EditStundenCommand_Click()
         {
-
+            Dialog.DStundenAddEdit EditStunden = new Dialog.DStundenAddEdit(SelectedStunden);
+            if (EditStunden.ShowDialog() == true)
+            {
+                _DB.UpdateStunden(EditStunden.Value);
+            }
+            ValueStunden.Clear();
+            LoadStunden(Selected);
+            Selected = null;
+            SelectedStunden = null;
         }
         public void EditCommand_Click() {
             Dialog.DPersonAddEdit EditPerson = new Dialog.DPersonAddEdit(Selected);
@@ -140,15 +158,21 @@ namespace VCore_App.ViewModel
                 _DB.Update(EditPerson.Value);
                 Load();
             }
+            Selected = null;
+            SelectedStunden = null;
         }
         public void DeleteStundenCommand_Click() {
             _DB.DeleteStunden(SelectedStunden);
             Load();
+            Selected = null;
+            SelectedStunden = null;
         }
         public void DeleteCommand_Click()
         {
             _DB.Delete(Selected);
             Load();
+            Selected = null;
+            SelectedStunden = null;
         }
     }
 }
