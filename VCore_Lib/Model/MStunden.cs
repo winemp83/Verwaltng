@@ -18,7 +18,7 @@ namespace VCore_Lib.Model
                                                                                                                   
         private double String_To_Double(string value)
         {
-            value = value.Replace(",", ".");
+            value = value.Replace(".", ",");
             if (double.TryParse(value, out double result))
                 return result;
             return 0.0f;
@@ -28,10 +28,21 @@ namespace VCore_Lib.Model
         }
         private DateTime String_To_DateTime(string value)
         {
-            return  DateTime.ParseExact(value, "dd.MM.yyyy hh:mm", CultureInfo.InvariantCulture);
+            try
+            {
+                if (DateTime.TryParseExact(value, "dd.MM.yyyy HH:mm", null, System.Globalization.DateTimeStyles.None, out DateTime result))
+                {
+                    return result;
+                }
+                else
+                {
+                    return DateTime.Now;
+                }
+            }
+            catch { return DateTime.Now; }
         }
         private string DateTime_To_String(DateTime value) {
-            return value.ToString("dd.MM.yyyy hh:mm");
+            return value.ToString("dd.MM.yyyy HH:mm");
         }
     }
 }

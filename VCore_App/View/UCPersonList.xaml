@@ -5,22 +5,22 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:VCore_App.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="200" d:DesignWidth="1024">
     <UserControl.Resources>
         <DataTemplate x:Key = "personTemplate">
 
             <StackPanel Orientation = "Horizontal">
 
-                <TextBox Text = "{Binding Path = VName, Mode = TwoWay}" 
+                <TextBlock Text = "{Binding Path = VName, Mode = OneWay}" 
                Width = "100" Margin = "3 5 3 5"/>
 
-                <TextBox Text = "{Binding Path = NName, Mode = TwoWay}" 
+                <TextBlock Text = "{Binding Path = NName, Mode = OneWay}" 
                Width = "100" Margin = "0 5 3 5"/>
 
-                <TextBox Text = "{Binding Path = Mid, Mode = TwoWay}" 
+                <TextBlock Text = "{Binding Path = Mid, Mode = OneWay}" 
                Width = "50" Margin = "0 5 3 5"/>
 
-                <TextBox Text = "{Binding Path = TaughtNr, Mode = TwoWay}" 
+                <TextBlock Text = "{Binding Path = TaughtNr, Mode = OneWay}" 
                Width = "50" Margin = "0 5 3 5"/>
 
                 <TextBlock Text = "{Binding Path = FullName, Mode = OneWay}" 
@@ -29,8 +29,26 @@
             </StackPanel>
 
         </DataTemplate>
+        <DataTemplate x:Key="StundenTemplate">
+            <StackPanel Orientation = "Horizontal">
+
+                <TextBlock Text = "{Binding Path = Start, Mode = OneWay}" 
+               Width = "100" Margin = "3 5 3 5"/>
+
+                <TextBlock Text = "{Binding Path = Ende, Mode = OneWay}" 
+               Width = "100" Margin = "0 5 3 5"/>
+
+                <TextBlock Text = "{Binding Path = Pause, Mode = OneWay}" 
+               Width = "50" Margin = "0 5 3 5"/>
+
+                <TextBlock Text = "{Binding Path = Arbeitszeit, Mode = OneWay}" 
+               Width = "50" Margin = "0 5 3 5"/>
+
+            </StackPanel>
+        </DataTemplate>
     </UserControl.Resources>
     <Grid>
+        <StackPanel Orientation="Horizontal">
         <StackPanel Orientation = "Horizontal">
             <ListBox ItemsSource = "{Binding Value}"
                      ItemTemplate="{StaticResource personTemplate}"
@@ -52,6 +70,29 @@
                     VerticalAlignment = "Top" 
                     Width = "75" />
             </StackPanel>
+        </StackPanel>
+            <StackPanel Orientation = "Horizontal">
+            <ListBox ItemsSource = "{Binding ValueStunden}"
+                     ItemTemplate="{StaticResource StundenTemplate}"
+                     SelectedItem = "{Binding SelectedStunden}"/>
+            <StackPanel Orientation="Vertical">
+                <Button Content = "Löschen" 
+                    Command = "{Binding DeleteStundenCommand}"
+                    HorizontalAlignment = "Left" 
+                    VerticalAlignment = "Top" 
+                    Width = "75" />
+                <Button Content = "Bearbeiten" 
+                    Command = "{Binding EditStundenCommand}"
+                    HorizontalAlignment = "Left" 
+                    VerticalAlignment = "Top" 
+                    Width = "75" />
+                <Button Content = "Hinzufügen" 
+                    Command = "{Binding AddStundenCommand}"
+                    HorizontalAlignment = "Left" 
+                    VerticalAlignment = "Top" 
+                    Width = "75" />
+            </StackPanel>
+        </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>

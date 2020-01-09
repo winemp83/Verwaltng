@@ -53,6 +53,7 @@ namespace VCore_Lib.Database.Xml
                 if (person.Id.Equals(cl.GetAttribute("Id")))
                 {
                     XmlElement ca = _XDoc.CreateElement(_SubStunden);
+                    ca.SetAttribute("Id", stunden.Id);
                     ca.SetAttribute("Start", stunden.Start);
                     ca.SetAttribute("Ende", stunden.Ende);
                     ca.SetAttribute("Pause", stunden.Pause);
@@ -87,14 +88,19 @@ namespace VCore_Lib.Database.Xml
             _XDoc = new XmlDocument();
             _Stream = new FileStream(_FilePath, FileMode.Open);
             _XDoc.Load(_Stream);
-            XmlNodeList list = _XDoc.GetElementsByTagName(_SubStunden);
+            XmlNodeList list = _XDoc.GetElementsByTagName(_SubName);
             for (int i = 0; i < list.Count; i++)
             {
-                XmlElement cl = (XmlElement)_XDoc.GetElementsByTagName(_SubStunden)[i];
-                if (value.Id.Equals(cl.GetAttribute("Id")))
+                XmlElement cl = (XmlElement)_XDoc.GetElementsByTagName(_SubName)[i];
+                XmlNodeList l = cl.GetElementsByTagName(_SubStunden);
+                for (int j = 0; j < l.Count; j++)
                 {
-                    _XDoc.DocumentElement.RemoveChild(cl);
-                    break;
+                    XmlElement c = (XmlElement)cl.GetElementsByTagName(_SubStunden)[j];
+                    if (value.Id.Equals(c.GetAttribute("Id")))
+                    {
+                        cl.RemoveChild(c);
+                        break;
+                    }
                 }
             }
             _Stream.Close();
@@ -156,7 +162,8 @@ namespace VCore_Lib.Database.Xml
                     VName = cl.GetAttribute("VName"),
                     NName = cl.GetAttribute("NName"),
                     Mid = cl.GetAttribute("Mid"),
-                    TaughtNr = cl.GetAttribute("TaughtNr")
+                    TaughtNr = cl.GetAttribute("TaughtNr"),
+                    Stunden = new ObservableCollection<MStunden>()
                 };
                 for(int j = 0; j < cl.ChildNodes.Count; j++) {
                     XmlElement ca = (XmlElement)cl.ChildNodes[j];
