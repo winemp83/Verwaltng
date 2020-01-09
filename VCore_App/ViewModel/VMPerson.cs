@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using VCore_Lib.Database.Xml;
 using System.ComponentModel;
 using VCore_Lib;
+using VCore_Lib.PDF;
 
 namespace VCore_App.ViewModel
 {
@@ -17,7 +18,7 @@ namespace VCore_App.ViewModel
         private SortableBindingList<MStunden> _ValueStunde;
         private readonly DBPerson _DB;
 
-        public MPerson Selected { get { return _Selected; } set { _Selected = value; ValueStunden.Clear(); LoadStunden(_Selected); AddStundenCommand.RaiseCanExecuteChanged(); DeleteCommand.RaiseCanExecuteChanged(); EditCommand.RaiseCanExecuteChanged(); } }
+        public MPerson Selected { get { return _Selected; } set { _Selected = value; ValueStunden.Clear(); LoadStunden(_Selected); CreatePDFCommand.RaiseCanExecuteChanged(); AddStundenCommand.RaiseCanExecuteChanged(); DeleteCommand.RaiseCanExecuteChanged(); EditCommand.RaiseCanExecuteChanged(); } }
         public MStunden SelectedStunden { get { return _SelectedStunde; } set { _SelectedStunde = value; DeleteStundenCommand.RaiseCanExecuteChanged(); EditStundenCommand.RaiseCanExecuteChanged(); } }
         public SortableBindingList<MPerson> Value { get { return _Value; } set { _Value = value; } }
         public SortableBindingList<MStunden> ValueStunden { get { return _ValueStunde; } set { _ValueStunde = value; } }
@@ -28,12 +29,14 @@ namespace VCore_App.ViewModel
         public MyICommand DeleteStundenCommand { get; set; }
         public MyICommand EditStundenCommand { get; set; }
         public MyICommand AddStundenCommand { get; set; }
+        public MyICommand CreatePDFCommand { get; set; }
 
         public VMPerson()
         {
             DeleteStundenCommand = new MyICommand(DeleteStundenCommand_Click, CanStundenDelete);
             EditStundenCommand = new MyICommand(EditStundenCommand_Click, CanStundenEdit);
             AddStundenCommand = new MyICommand(AddStundenCommand_Click, CanEdit);
+            CreatePDFCommand = new MyICommand(CreatePDFCommand_Click, CanEdit);
             DeleteCommand = new MyICommand(DeleteCommand_Click, CanDelete);
             EditCommand = new MyICommand(EditCommand_Click, CanEdit);
             AddCommand = new MyICommand(AddCommand_Click);
@@ -173,6 +176,10 @@ namespace VCore_App.ViewModel
             Load();
             Selected = null;
             SelectedStunden = null;
+        }
+        public void CreatePDFCommand_Click() {
+            PDFStunden pdf = new PDFStunden(FinalName: Selected.VName+"_"+Selected.NName);
+            pdf.CreateTableStundenNachweiß(ref _ValueStunde, Selected.FullName);
         }
     }
 }

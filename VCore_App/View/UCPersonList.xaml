@@ -59,54 +59,21 @@
                     <MenuItem Header="_Neu" Command = "{Binding AddStundenCommand}"/>
                     <MenuItem Header="_Bearbeiten" Command="{Binding EditStundenCommand}"/>
                     <MenuItem Header="_Löschen" Command="{Binding DeleteStundenCommand}"/>
+                    <MenuItem Header="_Auswertung erstellen" Command="{Binding CreatePDFCommand}"/>
                 </MenuItem>
             </Menu>
             <StackPanel Orientation="Horizontal">
-        <StackPanel Orientation = "Horizontal">
-            <ListBox ItemsSource = "{Binding Value}"
+                <StackPanel Orientation = "Horizontal">
+                    <ListBox ItemsSource = "{Binding Value}"
                      ItemTemplate="{StaticResource personTemplate}"
                      SelectedItem = "{Binding Selected}"/>
-            <StackPanel Orientation="Vertical">
-                <Button Content = "Löschen" 
-                    Command = "{Binding DeleteCommand}"
-                    HorizontalAlignment = "Left" 
-                    VerticalAlignment = "Top" 
-                    Width = "75" />
-                <Button Content = "Bearbeiten" 
-                    Command = "{Binding EditCommand}"
-                    HorizontalAlignment = "Left" 
-                    VerticalAlignment = "Top" 
-                    Width = "75" />
-                <Button Content = "Hinzufügen" 
-                    Command = "{Binding AddCommand}"
-                    HorizontalAlignment = "Left" 
-                    VerticalAlignment = "Top" 
-                    Width = "75" />
-            </StackPanel>
-        </StackPanel>
-            <StackPanel Orientation = "Horizontal">
-            <ListBox ItemsSource = "{Binding ValueStunden}"
+                </StackPanel>
+                <StackPanel Orientation = "Horizontal">
+                    <ListBox ItemsSource = "{Binding ValueStunden}"
                      ItemTemplate="{StaticResource StundenTemplate}"
                      SelectedItem = "{Binding SelectedStunden}"/>
-            <StackPanel Orientation="Vertical">
-                <Button Content = "Löschen" 
-                    Command = "{Binding DeleteStundenCommand}"
-                    HorizontalAlignment = "Left" 
-                    VerticalAlignment = "Top" 
-                    Width = "75" />
-                <Button Content = "Bearbeiten" 
-                    Command = "{Binding EditStundenCommand}"
-                    HorizontalAlignment = "Left" 
-                    VerticalAlignment = "Top" 
-                    Width = "75" />
-                <Button Content = "Hinzufügen" 
-                    Command = "{Binding AddStundenCommand}"
-                    HorizontalAlignment = "Left" 
-                    VerticalAlignment = "Top" 
-                    Width = "75" />
+                </StackPanel>
             </StackPanel>
-        </StackPanel>
-        </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>
