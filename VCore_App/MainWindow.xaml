@@ -6,15 +6,22 @@
         xmlns:local="clr-namespace:VCore_App"
         xmlns:View="clr-namespace:VCore_App.View" x:Class="VCore_App.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="1024">
+        Title="MainWindow" Height="450" Width="1024" Closing="Window_Closing">
     <Grid>
-        <StackPanel Orientation="Vertical">
-        <Menu DockPanel.Dock="Top">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="103*"/>
+            <ColumnDefinition Width="25*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Vertical" Grid.ColumnSpan="2">
+            <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_File">
                     <MenuItem Header="_Exit" Click="MenuItem_Click"/>
-            </MenuItem>
-        </Menu>
-        <View:UCPersonList />
+                </MenuItem>
+                <MenuItem Header="_Ansicht">
+                    <MenuItem Header="_Aktualisieren" Click="MenuRefresh_Click"/>
+                </MenuItem>
+            </Menu>
+            <View:UCPersonList x:Name="PersonList"/>
         </StackPanel>
 
     </Grid>
