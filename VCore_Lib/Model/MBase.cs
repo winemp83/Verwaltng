@@ -43,8 +43,7 @@ namespace VCore_Lib.Model
 
         public void RaisePropertyChanged(string Property)
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(Property));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(Property));
         }
 
         public override string ToString()
