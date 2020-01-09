@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Collections.ObjectModel;
+using VCore_Lib.Database.Xml;
 
 namespace VCore_App.ViewModel
 {
@@ -10,6 +11,7 @@ namespace VCore_App.ViewModel
     {
         private MPerson _Selected;
         private ObservableCollection<MPerson> _Value;
+        private DBPerson _DB;
 
         public MPerson Selected { get { return _Selected; } set { _Selected = value; DeleteCommand.RaiseCanExecuteChanged(); EditCommand.RaiseCanExecuteChanged(); } }
         public ObservableCollection<MPerson> Value { get { return _Value; } set { _Value = value; } }
@@ -25,6 +27,7 @@ namespace VCore_App.ViewModel
             AddCommand = new MyICommand(AddCommand_Click);
             Value = new ObservableCollection<MPerson>();
             Selected = null;
+            _DB = new DBPerson();
             Load();
         }
 
@@ -37,11 +40,11 @@ namespace VCore_App.ViewModel
             return Selected != null;
         }
 
-        public void Load(bool IsDebug = true)
+        public void Load(bool IsFirstStart = false)
         {
-            if (IsDebug)
+            if (IsFirstStart)
             {
-                Value.Add(new MPerson()
+                _DB.Add(new MPerson()
                 {
                     Id = Guid.NewGuid().ToString(),
                     VName = "Max",
@@ -49,7 +52,7 @@ namespace VCore_App.ViewModel
                     Mid = "001",
                     TaughtNr = ""
                 });
-                Value.Add(new MPerson()
+                _DB.Add(new MPerson()
                 {
                     Id = Guid.NewGuid().ToString(),
                     VName = "Maria",
@@ -57,7 +60,7 @@ namespace VCore_App.ViewModel
                     Mid = "002",
                     TaughtNr = ""
                 });
-                Value.Add(new MPerson()
+                _DB.Add(new MPerson()
                 {
                     Id = Guid.NewGuid().ToString(),
                     VName = "Nino",
@@ -65,7 +68,7 @@ namespace VCore_App.ViewModel
                     Mid = "003",
                     TaughtNr = "001"
                 });
-                Value.Add(new MPerson()
+                _DB.Add(new MPerson()
                 {
                     Id = Guid.NewGuid().ToString(),
                     VName = "Nena",
@@ -74,34 +77,29 @@ namespace VCore_App.ViewModel
                     TaughtNr = "002"
                 });
             }
-            else
-            {
-
+            Value.Clear();
+            foreach (MPerson p in _DB.Load()) {
+                Value.Add(p);
             }
         }
         public void AddCommand_Click() {
             Dialog.DPersonAddEdit AddPerson = new Dialog.DPersonAddEdit();
             if (AddPerson.ShowDialog() == true)
-                Value.Add(AddPerson.Value);
+                _DB.Add(AddPerson.Value);
+            Load();
         }
         public void EditCommand_Click() {
             Dialog.DPersonAddEdit EditPerson = new Dialog.DPersonAddEdit(Selected);
             if (EditPerson.ShowDialog() == true)
             {
-                Selected = EditPerson.Value;
-                for (int i = 0; i < Value.Count; i++)
-                {
-                    if (Value[i].Id == Selected.Id)
-                    {
-                        Value[i] = Selected;
-                        break;
-                    }
-                }
+                _DB.Update(EditPerson.Value);
+                Load();
             }
         }
         public void DeleteCommand_Click()
         {
-            Value.Remove(Selected);
+            _DB.Delete(Selected);
+            Load();
         }
     }
 }
