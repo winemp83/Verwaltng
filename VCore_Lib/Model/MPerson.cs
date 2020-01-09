@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
-using System.Text;
 
 namespace VCore_Lib.Model
 {
@@ -12,6 +11,7 @@ namespace VCore_Lib.Model
         private string _NName;
         private string _Mid;
         private string _TaughtNr;
+        private ObservableCollection<MStunden> _Stunden;
         
         public string VName
         {
@@ -33,6 +33,11 @@ namespace VCore_Lib.Model
             get { return _TaughtNr; }
             set { if (_TaughtNr != value) { _TaughtNr = value; RaisePropertyChanged("TaughtNr"); } }
         }
+        public ObservableCollection<MStunden> Stunden
+        {
+            get { return _Stunden; }
+            set { if (_Stunden != value) { _Stunden = value; RaisePropertyChanged("Stunden"); } }
+        }
         public string FullName { get { return $@"{NName}, {VName}"; } }
 
         public override bool Equals(object obj)
@@ -47,12 +52,13 @@ namespace VCore_Lib.Model
                    VName == other.VName &&
                    NName == other.NName &&
                    Mid == other.Mid &&
-                   TaughtNr == other.TaughtNr;
+                   TaughtNr == other.TaughtNr &&
+                   Stunden == other.Stunden;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(base.GetHashCode(), VName, NName, Mid, TaughtNr);
+            return HashCode.Combine(base.GetHashCode(), VName, NName, Mid, TaughtNr, Stunden);
         }
 
         public static bool operator ==(MPerson left, MPerson right)

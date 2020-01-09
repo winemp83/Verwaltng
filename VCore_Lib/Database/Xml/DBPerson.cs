@@ -12,6 +12,7 @@ namespace VCore_Lib.Database.Xml
     {
         private readonly string _MainName = "PersonDetail";
         private readonly string _SubName = "Person";
+        private readonly string _SubStunden = "Stunden";
 
         private string _FileName;
         private string _FilePath;
@@ -41,6 +42,91 @@ namespace VCore_Lib.Database.Xml
             _Xml.Close();
         }
 
+        public void AddStunden(MStunden stunden, MPerson person) {
+            _XDoc = new XmlDocument();
+            _Stream = new FileStream(_FilePath, FileMode.Open);
+            _XDoc.Load(_Stream);
+            XmlNodeList list = _XDoc.GetElementsByTagName(_SubName);
+            for (int i = 0; i < list.Count; i++)
+            {
+                XmlElement cl = (XmlElement)_XDoc.GetElementsByTagName(_SubName)[i];
+                if (person.Id.Equals(cl.GetAttribute("Id")))
+                {
+                    XmlElement ca = _XDoc.CreateElement(_SubStunden);
+                    ca.SetAttribute("Start", stunden.Start);
+                    ca.SetAttribute("Ende", stunden.Ende);
+                    ca.SetAttribute("Pause", stunden.Pause);
+                    cl.AppendChild(ca);
+                    break;
+                }
+            }
+            _Stream.Close();
+            _XDoc.Save(_FilePath);
+        }
+        public void UpdateStunden(MStunden stunden) {
+            _XDoc = new XmlDocument();
+            _Stream = new FileStream(_FilePath, FileMode.Open);
+            _XDoc.Load(_Stream);
+            XmlNodeList list = _XDoc.GetElementsByTagName(_SubStunden);
+            for (int i = 0; i < list.Count; i++)
+            {
+                XmlElement cl = (XmlElement)_XDoc.GetElementsByTagName(_SubStunden)[i];
+                if (stunden.Id.Equals(cl.GetAttribute("Id")))
+                {
+                    cl.SetAttribute("Start", stunden.Start);
+                    cl.SetAttribute("Ende", stunden.Ende);
+                    cl.SetAttribute("Pause", stunden.Pause);
+                    break;
+                }
+            }
+            _Stream.Close();
+            _XDoc.Save(_FilePath);
+        }
+        public void DeleteStunden(MStunden value)
+        {
+            _XDoc = new XmlDocument();
+            _Stream = new FileStream(_FilePath, FileMode.Open);
+            _XDoc.Load(_Stream);
+            XmlNodeList list = _XDoc.GetElementsByTagName(_SubStunden);
+            for (int i = 0; i < list.Count; i++)
+            {
+                XmlElement cl = (XmlElement)_XDoc.GetElementsByTagName(_SubStunden)[i];
+                if (value.Id.Equals(cl.GetAttribute("Id")))
+                {
+                    _XDoc.DocumentElement.RemoveChild(cl);
+                    break;
+                }
+            }
+            _Stream.Close();
+            _XDoc.Save(_FilePath);
+        }
+        public ObservableCollection<MStunden> LoadStunden(MPerson value) {
+            ObservableCollection<MStunden> result = new ObservableCollection<MStunden>();
+            _XDoc = new XmlDocument();
+            FileStream Stream = new FileStream(_FilePath, FileMode.Open);
+            _XDoc.Load(Stream);
+            XmlNodeList list = _XDoc.GetElementsByTagName(_SubName);
+            for (int i = 0; i < list.Count; i++)
+            {
+                XmlElement cl = (XmlElement)_XDoc.GetElementsByTagName(_SubName)[i];
+                if (cl.GetAttribute("Id").Equals(value.Id))
+                {
+                    XmlNodeList l = cl.ChildNodes;
+                    for(int j = 0; j < l.Count; j++) {
+                        XmlElement ca = (XmlElement)cl.GetElementsByTagName(_SubStunden)[i];
+                        result.Add(new MStunden()
+                        {
+                            Id = ca.GetAttribute("Id"),
+                            Start = ca.GetAttribute("Start"),
+                            Ende = ca.GetAttribute("Ende"),
+                            Pause = ca.GetAttribute("Pause")
+                        });
+                    }
+                }
+            }
+            Stream.Close();
+            return result;
+        }
         public void Add(MPerson value)
         {
             _XDoc= new XmlDocument();
@@ -64,14 +150,25 @@ namespace VCore_Lib.Database.Xml
             XmlNodeList list = _XDoc.GetElementsByTagName(_SubName);
             for(int i = 0; i < list.Count; i++) {
                 XmlElement cl = (XmlElement)_XDoc.GetElementsByTagName(_SubName)[i];
-                result.Add(new MPerson()
+                MPerson r = new MPerson()
                 {
                     Id = cl.GetAttribute("Id"),
                     VName = cl.GetAttribute("VName"),
                     NName = cl.GetAttribute("NName"),
                     Mid = cl.GetAttribute("Mid"),
                     TaughtNr = cl.GetAttribute("TaughtNr")
-                });
+                };
+                for(int j = 0; j < cl.ChildNodes.Count; j++) {
+                    XmlElement ca = (XmlElement)cl.ChildNodes[j];
+                    r.Stunden.Add(new MStunden()
+                    {
+                        Id = ca.GetAttribute("Id"),
+                        Start = ca.GetAttribute("Start"),
+                        Ende = ca.GetAttribute("Ende"),
+                        Pause = ca.GetAttribute("Pause")
+                    }) ;
+                }
+                result.Add(r);
             }
             _Stream.Close();
             return result;

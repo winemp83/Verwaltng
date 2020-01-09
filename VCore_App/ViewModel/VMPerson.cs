@@ -28,7 +28,7 @@ namespace VCore_App.ViewModel
             Value = new ObservableCollection<MPerson>();
             Selected = null;
             _DB = new DBPerson();
-            Load();
+            Load(true);
         }
 
         private bool CanDelete()
@@ -50,15 +50,17 @@ namespace VCore_App.ViewModel
                     VName = "Max",
                     NName = "Mustermann",
                     Mid = "001",
-                    TaughtNr = ""
-                });
+                    TaughtNr = "",
+                    Stunden = new ObservableCollection<MStunden>()
+                }) ;
                 _DB.Add(new MPerson()
                 {
                     Id = Guid.NewGuid().ToString(),
                     VName = "Maria",
                     NName = "Mustermann",
                     Mid = "002",
-                    TaughtNr = ""
+                    TaughtNr = "",
+                    Stunden = new ObservableCollection<MStunden>()
                 });
                 _DB.Add(new MPerson()
                 {
@@ -66,7 +68,8 @@ namespace VCore_App.ViewModel
                     VName = "Nino",
                     NName = "Mustermann",
                     Mid = "003",
-                    TaughtNr = "001"
+                    TaughtNr = "001",
+                    Stunden = new ObservableCollection<MStunden>()
                 });
                 _DB.Add(new MPerson()
                 {
@@ -74,8 +77,13 @@ namespace VCore_App.ViewModel
                     VName = "Nena",
                     NName = "Mustermann",
                     Mid = "004",
-                    TaughtNr = "002"
+                    TaughtNr = "002",
+                    Stunden = new ObservableCollection<MStunden>()
                 });
+                ObservableCollection < MPerson > mp = _DB.Load();
+                foreach(MPerson p in mp) {
+                    _DB.AddStunden(new MStunden() { Id = Guid.NewGuid().ToString(), Start = "01.01.2020 08:00", Ende = "01.01.2020 17:00", Pause = "1,0" }, p);
+                }
             }
             Value.Clear();
             foreach (MPerson p in _DB.Load()) {
