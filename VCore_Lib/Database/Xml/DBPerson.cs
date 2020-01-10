@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.IO;
 using System.Text;
 using System.Xml;
@@ -148,9 +146,9 @@ namespace VCore_Lib.Database.Xml
             _XDoc.Load(_Stream);
             XmlElement cl = _XDoc.CreateElement(_SubName);
             cl.SetAttribute("Id", value.Id);
-            cl.SetAttribute("VName", value.VName);
-            cl.SetAttribute("NName", value.NName);
-            cl.SetAttribute("Mid", value.Mid);
+            cl.SetAttribute("VName", Crypt.EncryptString(value.VName, value.Id));
+            cl.SetAttribute("NName", Crypt.EncryptString(value.NName, value.Id));
+            cl.SetAttribute("Mid", Crypt.EncryptString(value.Mid, value.Id));
             cl.SetAttribute("TaughtNr", value.TaughtNr);
             _XDoc.DocumentElement.AppendChild(cl);
             _Stream.Close();
@@ -169,9 +167,9 @@ namespace VCore_Lib.Database.Xml
                 MPerson r = new MPerson()
                 {
                     Id = cl.GetAttribute("Id"),
-                    VName = cl.GetAttribute("VName"),
-                    NName = cl.GetAttribute("NName"),
-                    Mid = cl.GetAttribute("Mid"),
+                    VName = Crypt.DecryptString(cl.GetAttribute("VName"),cl.GetAttribute("Id")),
+                    NName = Crypt.DecryptString(cl.GetAttribute("NName"), cl.GetAttribute("Id")),
+                    Mid = Crypt.DecryptString(cl.GetAttribute("Mid"), cl.GetAttribute("Id")),
                     TaughtNr = cl.GetAttribute("TaughtNr"),
                     Stunden = new ObservableCollection<MStunden>()
                 };
@@ -202,9 +200,9 @@ namespace VCore_Lib.Database.Xml
                 XmlElement cl = (XmlElement)_XDoc.GetElementsByTagName(_SubName)[i];
                 if (value.Id.Equals(cl.GetAttribute("Id")))
                 {
-                    cl.SetAttribute("VName", value.VName);
-                    cl.SetAttribute("NName", value.NName);
-                    cl.SetAttribute("Mid", value.Mid);
+                    cl.SetAttribute("VName", Crypt.EncryptString(value.VName, value.Id));
+                    cl.SetAttribute("NName", Crypt.EncryptString(value.NName, value.Id));
+                    cl.SetAttribute("Mid", Crypt.EncryptString(value.Mid, value.Id));
                     cl.SetAttribute("TaughtNr", value.TaughtNr);
                     break;
                 }

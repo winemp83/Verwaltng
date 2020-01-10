@@ -30,6 +30,7 @@ namespace VCore_App.ViewModel
         public MyICommand EditStundenCommand { get; set; }
         public MyICommand AddStundenCommand { get; set; }
         public MyICommand CreatePDFCommand { get; set; }
+        public MyICommand CreatePDFMonatCommand { get; set; }
 
         public VMPerson()
         {
@@ -37,6 +38,7 @@ namespace VCore_App.ViewModel
             EditStundenCommand = new MyICommand(EditStundenCommand_Click, CanStundenEdit);
             AddStundenCommand = new MyICommand(AddStundenCommand_Click, CanEdit);
             CreatePDFCommand = new MyICommand(CreatePDFCommand_Click, CanEdit);
+            CreatePDFMonatCommand = new MyICommand(CreatePDFMonatCommand_Click, CanEdit);
             DeleteCommand = new MyICommand(DeleteCommand_Click, CanDelete);
             EditCommand = new MyICommand(EditCommand_Click, CanEdit);
             AddCommand = new MyICommand(AddCommand_Click);
@@ -180,6 +182,20 @@ namespace VCore_App.ViewModel
         public void CreatePDFCommand_Click() {
             PDFStunden pdf = new PDFStunden(FinalName: Selected.VName+"_"+Selected.NName);
             pdf.CreateTableStundenNachweiß(ref _ValueStunde, Selected.FullName);
+        }
+        public void CreatePDFMonatCommand_Click()
+        {
+            SortableBindingList<MStunden> result = new SortableBindingList<MStunden>();
+            Dialog.DMonatsAuswahl dm = new Dialog.DMonatsAuswahl();
+            if (dm.ShowDialog() == true) { 
+                foreach(MStunden std in ValueStunden) {
+                    string[] r = std.Start.Split('.');
+                    if (r[1] == dm.Month)
+                        result.Add(std);
+                }
+            }
+            PDFStunden pdf = new PDFStunden(FinalName: Selected.VName + "_" + Selected.NName);
+            pdf.CreateTableStundenNachweiß(ref result, Selected.FullName);
         }
     }
 }

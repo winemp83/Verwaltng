@@ -25,8 +25,6 @@ namespace VCore_App
         public MainWindow()
         {
             InitializeComponent();
-            //if (File.Exists($@"{Directory.GetCurrentDirectory()}\DB.sak"))
-            //    Crypt.EncryptFile("finnpro", $@"{Directory.GetCurrentDirectory()}\DB.sak", $@"{Directory.GetCurrentDirectory()}\xdb.xml");
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -36,11 +34,6 @@ namespace VCore_App
         private void MenuRefresh_Click(object sender, RoutedEventArgs e)
         {
             PersonList.Refresh();
-        }
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            //if (File.Exists($@"{Directory.GetCurrentDirectory()}\xdb.xml"))
-            //    Crypt.DecryptFile("finnpro", $@"{Directory.GetCurrentDirectory()}\xdb.xml", $@"{Directory.GetCurrentDirectory()}\DB.sak");
         }
     }
 }

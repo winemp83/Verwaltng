@@ -61,6 +61,10 @@
                     <MenuItem Header="_Löschen" Command="{Binding DeleteStundenCommand}"/>
                     <MenuItem Header="_Auswertung erstellen" Command="{Binding CreatePDFCommand}"/>
                 </MenuItem>
+                <MenuItem Header="_Auswertung">
+                    <MenuItem Header="_Gesamt Stunden" Command="{Binding CreatePDFCommand}"/>
+                    <MenuItem Header="_Monats Auswertung" Command="{Binding CreatePDFMonatCommand}"/>
+                </MenuItem>
             </Menu>
             <StackPanel Orientation="Horizontal">
                 <StackPanel Orientation = "Horizontal">
