@@ -6,11 +6,11 @@
         xmlns:local="clr-namespace:VCore_App.Dialog"
         mc:Ignorable="d"
         Title="DMonatsAuswahl" Height="130" Width="383">
-    <Grid Margin="0,0,27,0">
+    <Grid>
         <Label Content="Monats Auswahl" HorizontalAlignment="Stretch" Margin="10,10,0,0" VerticalAlignment="Top" Width="200" FontFamily="Comic Sans MS" FontSize="16" FontWeight="Bold"/>
-        <Label Content="Monat : " HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top" Width="100"/>
+        <Label Content="Monat : " Margin="10,0,273,0" VerticalAlignment="Center"/>
         <ListBox HorizontalAlignment="Left" Margin="110,45" VerticalAlignment="Top" Width="100" Height="25" DisplayMemberPath="Key" SelectedValuePath="Value" x:Name="listBox" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-        
+
         </ListBox>
         <Button Content="Auswählen" HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top" Click="Button_Click" IsDefault="True" Width="95"/>
         <Button Content="Abbrechen" HorizontalAlignment="Left" Margin="115,75,0,0" VerticalAlignment="Top" IsCancel="True" Width="95"/>
