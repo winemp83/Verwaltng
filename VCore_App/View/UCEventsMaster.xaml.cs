@@ -14,18 +14,13 @@ using System.Windows.Shapes;
 namespace VCore_App.View
 {
     /// <summary>
-    /// Interaktionslogik für UCPersonMaster.xaml
+    /// Interaktionslogik für UCEvents.xaml
     /// </summary>
-    public partial class UCPersonMaster : UserControl
+    public partial class UCEventsMaster : UserControl
     {
-        public UCPersonMaster()
+        public UCEventsMaster()
         {
             InitializeComponent();
-            Refresh_Click(this, null);
-        }
-
-        public void Refresh_Click(object sender, RoutedEventArgs e) {
-            this.DataContext = new ViewModel.VMPersonMaster();
         }
     }
 }

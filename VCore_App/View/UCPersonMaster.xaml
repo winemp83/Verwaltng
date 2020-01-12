@@ -29,9 +29,9 @@
             <StackPanel Orientation="Vertical">
                 <Menu>
                     <MenuItem Header="_Datei">
-                        <MenuItem Header="_Neu" Command = "{Binding AddPersonalCommand}"/>
-                        <MenuItem Header="_Bearbeiten" Command="{Binding EditPersonalCommand}"/>
-                        <MenuItem Header="_Löschen" Command="{Binding DeletePersonalCommand}"/>
+                        <MenuItem Header="_Neu" Command = "{Binding AddPersonCommand}"/>
+                        <MenuItem Header="_Bearbeiten" Command="{Binding EditPersonCommand}"/>
+                        <MenuItem Header="_Löschen" Command="{Binding DeletePersonCommand}"/>
                 </MenuItem>
                 <MenuItem Header="_Neu Laden" Click="Refresh_Click"/>
             </Menu>
@@ -53,7 +53,7 @@
                     </Border>
                 </StackPanel>
                 <ListBox
-                                ItemsSource="{Binding Persons}"
+                                ItemsSource="{Binding ValuePerson}"
                                 SelectedItem="{Binding SelectedPerson}"
                                 ItemTemplate="{StaticResource personTemplate}"/>
             </StackPanel>

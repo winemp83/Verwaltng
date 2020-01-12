@@ -4,15 +4,20 @@ using System.Text;
 
 namespace VCore_Lib.Model
 {
-    public class MVeranstaltungsTag : MBase
+    public class MEvent : MBase
     {
         private string _Name;
         private SortableBindingList<string> _ArbeitNehmerId;
         private SortableBindingList<string> _StundenId;
-        private DateTime _Start;
-        private DateTime _Ende;
-        private double _WorkingTime;
+        private readonly MDatum _Start;
+        private readonly MDatum _Ende;
 
+        public MEvent() {
+            _ArbeitNehmerId = new SortableBindingList<string>();
+            _StundenId = new SortableBindingList<string>();
+            _Start = new MDatum();
+            _Ende = new MDatum();
+        }
         public string Name 
         { 
             get { return _Name; } 
@@ -40,13 +45,12 @@ namespace VCore_Lib.Model
             }
         }
         public string Start {
-            get;
-            set;
+            get { return _Start.ToString(); }
+            set { if (_Start.ToString() != value){ _Start.Value = value; RaisePropertyChanged("Start"); } }
         }
         public string Ende {
-            get;
-            set;
+            get { return _Ende.ToString(); }
+            set { if (_Ende.ToString() != value) { _Ende.Value = value; RaisePropertyChanged("Ende"); } }
         }
-        public string Arbeitszeit { get; }
     }
 }

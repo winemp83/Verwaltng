@@ -1,20 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
-
-namespace VCore_Lib.Model
+﻿namespace VCore_Lib.Model
 {
     public class MStunden : MBase, IMBase
     {
-        private DateTime _Start;
-        private DateTime _Ende;
+        private MDatum _Start;
+        private MDatum _Ende;
         private double _Pause;
 
-        public string Start { get { return DateTime_To_String(_Start); } set { if (_Start != String_To_DateTime(value)) { _Start = String_To_DateTime(value); RaisePropertyChanged("Start"); RaisePropertyChanged("Arbeitszeit"); } } }
-        public string Ende { get { return DateTime_To_String(_Ende); } set { if (_Ende != String_To_DateTime(value)) { _Ende = String_To_DateTime(value); RaisePropertyChanged("Ende"); RaisePropertyChanged("Arbeitszeit"); } } }
+        public MStunden() {
+            _Start = new MDatum();
+            _Ende = new MDatum();
+        }
+
+        public string Start { get { return _Start.ToString(); } set { if (_Start.ToString() != value) { _Start.Value = value; RaisePropertyChanged("Start"); RaisePropertyChanged("Arbeitszeit"); } } }
+        public string Ende { get { return _Ende.ToString(); } set { if (_Ende.ToString() != value) { _Ende.Value = value; RaisePropertyChanged("Ende"); RaisePropertyChanged("Arbeitszeit"); } } }
         public string Pause { get { return Double_To_String(_Pause); } set { if (_Pause != String_To_Double(value)) { _Pause = String_To_Double(value); RaisePropertyChanged("Pause"); RaisePropertyChanged("Arbeitszeit"); } } }
-        public string Arbeitszeit { get { if (_Start != null || _Ende != null) { return Double_To_String((_Ende - _Start).TotalHours - _Pause); } return "0.00"; } }
+        public string Arbeitszeit { get { if (_Start != null || _Ende != null) { return Double_To_String((_Ende.GetDateTime - _Start.GetDateTime).TotalHours - _Pause); } return "0.00"; } }
                                                                                                                   
         private double String_To_Double(string value)
         {
@@ -26,23 +26,6 @@ namespace VCore_Lib.Model
         private string Double_To_String(double value) {
             return value.ToString("0.00");
         }
-        private DateTime String_To_DateTime(string value)
-        {
-            try
-            {
-                if (DateTime.TryParseExact(value, "dd.MM.yyyy HH:mm", null, System.Globalization.DateTimeStyles.None, out DateTime result))
-                {
-                    return result;
-                }
-                else
-                {
-                    return DateTime.Now;
-                }
-            }
-            catch { return DateTime.Now; }
-        }
-        private string DateTime_To_String(DateTime value) {
-            return value.ToString("dd.MM.yyyy HH:mm");
-        }
+        
     }
 }
