@@ -13,7 +13,9 @@
                 <Border BorderThickness="1" BorderBrush="Black">
                     <TextBlock Text = "{Binding Path = VName, Mode = OneWay}" Width = "98" Margin = "3 5 3 5" TextAlignment="Left"/>
                 </Border>
-                <TextBlock Text = "{Binding Path = NName, Mode = OneWay}" Width = "98" Margin = "0 5 3 5" TextAlignment="Left"/>
+                <Border BorderThickness="1" BorderBrush="Black">
+                    <TextBlock Text = "{Binding Path = NName, Mode = OneWay}" Width = "98" Margin = "0 5 3 5" TextAlignment="Left"/>
+                </Border>
                 <Border BorderThickness="1" BorderBrush="Black">
                     <TextBlock Text = "{Binding Path = Mid, Mode = OneWay}" Width = "98" Margin = "0 5 3 5" TextAlignment="Right"/>
                 </Border>
@@ -26,19 +28,34 @@
         </DataTemplate>
         <DataTemplate x:Key="stundenTemplate">
             <StackPanel Orientation = "Horizontal">
-
-                <TextBlock Text = "{Binding Path = Start, Mode = OneWay}" 
-               Width = "100" Margin = "3 5 3 5"/>
-
-                <TextBlock Text = "{Binding Path = Ende, Mode = OneWay}" 
-               Width = "100" Margin = "0 5 3 5"/>
-
-                <TextBlock Text = "{Binding Path = Pause, Mode = OneWay}" 
-               Width = "100" Margin = "0 5 3 5"/>
-
-                <TextBlock Text = "{Binding Path = Arbeitszeit, Mode = OneWay}" 
-               Width = "100" Margin = "0 5 3 5"/>
-
+                <Border BorderThickness="1" BorderBrush="Black">
+                    <TextBlock Text = "{Binding Path = Start, Mode = OneWay}" Width = "148" Margin = "3 5 3 5" TextAlignment="Left"/>
+                </Border>
+                <Border BorderThickness="1" BorderBrush="Black">
+                    <TextBlock Text = "{Binding Path = Ende, Mode = OneWay}" Width = "148" Margin = "0 5 3 5" TextAlignment="Left"/>
+                </Border>
+                <Border BorderThickness="1" BorderBrush="Black">
+                    <TextBlock Text = "{Binding Path = Pause, Mode = OneWay}" Width = "98" Margin = "0 5 3 5" TextAlignment="Center"/>
+                </Border>
+                <Border BorderThickness="1" BorderBrush="Black">
+                    <TextBlock Text = "{Binding Path = Arbeitszeit, Mode = OneWay}" Width = "98" Margin = "0 5 3 5" TextAlignment="Center"/>
+                </Border>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="eventTemplate">
+            <StackPanel Orientation = "Horizontal">
+                <Border BorderThickness="1" BorderBrush="Black">
+                    <TextBlock Text = "{Binding Path = MitarbeiterAnzahl, Mode = OneWay}" Width = "98" Margin = "3 5 3 5" TextAlignment="Center"/>
+                </Border>
+                <Border BorderThickness="1" BorderBrush="Black">
+                    <TextBlock Text = "{Binding Path = StartDatum, Mode = OneWay}" Width = "148" Margin = "0 5 3 5" TextAlignment="Left"/>
+                </Border>
+                <Border BorderThickness="1" BorderBrush="Black">
+                    <TextBlock Text = "{Binding Path = EndDatum, Mode = OneWay}" Width = "148" Margin = "0 5 3 5" TextAlignment="Left"/>
+                </Border>
+                <Border BorderThickness="1" BorderBrush="Black">
+                    <TextBlock Text = "{Binding Path = GesamtStunden, Mode = OneWay}" Width = "98" Margin = "0 5 3 5" TextAlignment="Center"/>
+                </Border>
             </StackPanel>
         </DataTemplate>
     </UserControl.Resources>
@@ -48,14 +65,14 @@
                 <TabItem Header="Personal">
                     <Grid Background="#FFE5E5E5">
                         <StackPanel Orientation="Vertical">
-                        <Menu>
-                            <MenuItem Header="_Datei">
-                                <MenuItem Header="_Neu" Command="NewPerson_Click"/>
-                                <MenuItem Header="_Bearbeiten" Command="EditPerson_Click"/>
-                                <MenuItem Header="_Löschen" Command="DeletePerson_Click"/>
-                            </MenuItem>
-                        </Menu>
-                        <StackPanel Orientation="Horizontal">
+                            <Menu>
+                                <MenuItem Header="_Datei">
+                                    <MenuItem Header="_Neu" Command = "{Binding AddPersonalCommand}"/>
+                                    <MenuItem Header="_Bearbeiten" Command="{Binding EditPersonalCommand}"/>
+                                    <MenuItem Header="_Löschen" Command="{Binding DeletePersonalCommand}"/>
+                                </MenuItem>
+                            </Menu>
+                            <StackPanel Orientation="Horizontal">
                                 <Border BorderThickness="1" BorderBrush="Black">
                                     <TextBlock Text = "Vorname" Width = "98" Margin = "3 5 3 5" TextAlignment="Center"/>
                                 </Border>
@@ -71,19 +88,75 @@
                                 <Border BorderThickness="1" BorderBrush="Black">
                                     <TextBlock Text = "Name" Width="198" Margin = "0 5 3 5" TextAlignment="Center"/>
                                 </Border>
-                                <ListBox
+                            </StackPanel>
+                            <ListBox
                                 ItemsSource="{Binding Persons}"
                                 SelectedItem="{Binding SelectedPerson}"
                                 ItemTemplate="{StaticResource personTemplate}"/>
-                            </StackPanel>
                         </StackPanel>
                     </Grid>
                 </TabItem>
             <TabItem Header="Arbeitszeit">
-                <Grid Background="#FFE5E5E5"/>
-            </TabItem>
+                    <Grid Background="#FFE5E5E5">
+                        <StackPanel Orientation="Vertical">
+                            <Menu>
+                                <MenuItem Header="_Datei">
+                                    <MenuItem Header="_Neu" Command = "{Binding AddStundenCommand}"/>
+                                    <MenuItem Header="_Bearbeiten" Command="{Binding EditStundenCommand}"/>
+                                    <MenuItem Header="_Löschen" Command="{Binding DeleteStundenCommand}"/>
+                                </MenuItem>
+                            </Menu>
+                            <StackPanel Orientation="Horizontal">
+                                <Border BorderThickness="1" BorderBrush="Black">
+                                    <TextBlock Text = "Start Datum/Zeit" Width = "148" Margin = "3 5 3 5" TextAlignment="Center"/>
+                                </Border>
+                                <Border BorderThickness="1" BorderBrush="Black">
+                                    <TextBlock Text = "Ende Datum/Zeit" Width = "148" Margin = "0 5 3 5" TextAlignment="Center"/>
+                                </Border>
+                                <Border BorderThickness="1" BorderBrush="Black">
+                                    <TextBlock Text = "Pause" Width = "98" Margin = "0 5 3 5" TextAlignment="Center"/>
+                                </Border>
+                                <Border BorderThickness="1" BorderBrush="Black">
+                                    <TextBlock Text = "Arbeitszeit" Width = "98" Margin = "0 5 3 5" TextAlignment="Center"/>
+                                </Border>
+                            </StackPanel>
+                            <ListBox
+                                ItemsSource="{Binding Stunden}"
+                                SelectedItem="{Binding SelectedStunden}"
+                                ItemTemplate="{StaticResource stundenTemplate}"/>
+                        </StackPanel>
+                    </Grid>
+                </TabItem>
                 <TabItem Header="Veranstaltungen">
-                    <Grid Background="#FFE5E5E5"/>
+                    <Grid Background="#FFE5E5E5">
+                        <StackPanel Orientation="Vertical">
+                            <Menu>
+                                <MenuItem Header="_Datei">
+                                    <MenuItem Header="_Neu" Command = "{Binding AddEventCommand}"/>
+                                    <MenuItem Header="_Bearbeiten" Command="{Binding EditEventCommand}"/>
+                                    <MenuItem Header="_Löschen" Command="{Binding DeleteEventCommand}"/>
+                                </MenuItem>
+                            </Menu>
+                            <StackPanel Orientation="Horizontal">
+                                <Border BorderThickness="1" BorderBrush="Black">
+                                    <TextBlock Text = "Mitarbeiter" Width = "98" Margin = "3 5 3 5" TextAlignment="Center"/>
+                                </Border>
+                                <Border BorderThickness="1" BorderBrush="Black">
+                                    <TextBlock Text = "Start Datum/Zeit" Width = "148" Margin = "0 5 3 5" TextAlignment="Center"/>
+                                </Border>
+                                <Border BorderThickness="1" BorderBrush="Black">
+                                    <TextBlock Text = "End Datum/Zeit" Width = "148" Margin = "0 5 3 5" TextAlignment="Center"/>
+                                </Border>
+                                <Border BorderThickness="1" BorderBrush="Black">
+                                    <TextBlock Text = "Arbeitszeit" Width = "98" Margin = "0 5 3 5" TextAlignment="Center"/>
+                                </Border>
+                            </StackPanel>
+                            <ListBox
+                                ItemsSource="{Binding Event}"
+                                SelectedItem="{Binding SelectedEvent}"
+                                ItemTemplate="{StaticResource eventTemplate}"/>
+                        </StackPanel>
+                    </Grid>
                 </TabItem>
             </TabControl>
             <StatusBar Height="25">
