@@ -4,44 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:VCore_App.View"
+             xmlns:View="clr-namespace:VCore_App.View"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="900">
     <UserControl.Resources>
-        <DataTemplate x:Key = "personTemplate">
-
-            <StackPanel Orientation = "Horizontal">
-                <Border BorderThickness="1" BorderBrush="Black">
-                    <TextBlock Text = "{Binding Path = VName, Mode = OneWay}" Width = "98" Margin = "3 5 3 5" TextAlignment="Left"/>
-                </Border>
-                <Border BorderThickness="1" BorderBrush="Black">
-                    <TextBlock Text = "{Binding Path = NName, Mode = OneWay}" Width = "98" Margin = "0 5 3 5" TextAlignment="Left"/>
-                </Border>
-                <Border BorderThickness="1" BorderBrush="Black">
-                    <TextBlock Text = "{Binding Path = Mid, Mode = OneWay}" Width = "98" Margin = "0 5 3 5" TextAlignment="Right"/>
-                </Border>
-                <TextBlock Text = "{Binding Path = TaughtNr, Mode = OneWay}" Width = "98" Margin = "0 5 3 5" TextAlignment="Right"/>
-                <Border BorderThickness="1" BorderBrush="Black">
-                    <TextBlock Text = "{Binding Path = FullName, Mode = OneWay}" Width = "198" Margin = "0 5 3 5" TextAlignment="Center"/>
-                </Border>
-            </StackPanel>
-
-        </DataTemplate>
-        <DataTemplate x:Key="stundenTemplate">
-            <StackPanel Orientation = "Horizontal">
-                <Border BorderThickness="1" BorderBrush="Black">
-                    <TextBlock Text = "{Binding Path = Start, Mode = OneWay}" Width = "148" Margin = "3 5 3 5" TextAlignment="Left"/>
-                </Border>
-                <Border BorderThickness="1" BorderBrush="Black">
-                    <TextBlock Text = "{Binding Path = Ende, Mode = OneWay}" Width = "148" Margin = "0 5 3 5" TextAlignment="Left"/>
-                </Border>
-                <Border BorderThickness="1" BorderBrush="Black">
-                    <TextBlock Text = "{Binding Path = Pause, Mode = OneWay}" Width = "98" Margin = "0 5 3 5" TextAlignment="Center"/>
-                </Border>
-                <Border BorderThickness="1" BorderBrush="Black">
-                    <TextBlock Text = "{Binding Path = Arbeitszeit, Mode = OneWay}" Width = "98" Margin = "0 5 3 5" TextAlignment="Center"/>
-                </Border>
-            </StackPanel>
-        </DataTemplate>
         <DataTemplate x:Key="eventTemplate">
             <StackPanel Orientation = "Horizontal">
                 <Border BorderThickness="1" BorderBrush="Black">
@@ -63,68 +29,11 @@
         <StackPanel Orientation="Vertical">
             <TabControl Height="550">
                 <TabItem Header="Personal">
-                    <Grid Background="#FFE5E5E5">
-                        <StackPanel Orientation="Vertical">
-                            <Menu>
-                                <MenuItem Header="_Datei">
-                                    <MenuItem Header="_Neu" Command = "{Binding AddPersonalCommand}"/>
-                                    <MenuItem Header="_Bearbeiten" Command="{Binding EditPersonalCommand}"/>
-                                    <MenuItem Header="_Löschen" Command="{Binding DeletePersonalCommand}"/>
-                                </MenuItem>
-                            </Menu>
-                            <StackPanel Orientation="Horizontal">
-                                <Border BorderThickness="1" BorderBrush="Black">
-                                    <TextBlock Text = "Vorname" Width = "98" Margin = "3 5 3 5" TextAlignment="Center"/>
-                                </Border>
-                                <Border BorderThickness="1" BorderBrush="Black">
-                                    <TextBlock Text = "Nachname" Width = "98" Margin = "0 5 3 5" TextAlignment="Center"/>
-                                </Border>
-                                <Border BorderThickness="1" BorderBrush="Black">
-                                    <TextBlock Text = "Mitarbeiter Id" Width = "98" Margin = "0 5 3 5" TextAlignment="Center"/>
-                                </Border>
-                                <Border BorderThickness="1" BorderBrush="Black">
-                                    <TextBlock Text = "§34a Id" Width = "98" Margin = "0 5 3 5" TextAlignment="Center"/>
-                                </Border>
-                                <Border BorderThickness="1" BorderBrush="Black">
-                                    <TextBlock Text = "Name" Width="198" Margin = "0 5 3 5" TextAlignment="Center"/>
-                                </Border>
-                            </StackPanel>
-                            <ListBox
-                                ItemsSource="{Binding Persons}"
-                                SelectedItem="{Binding SelectedPerson}"
-                                ItemTemplate="{StaticResource personTemplate}"/>
-                        </StackPanel>
-                    </Grid>
+                    <View:UCPersonMaster x:Name="ucPersonMaster"/>
                 </TabItem>
             <TabItem Header="Arbeitszeit">
                     <Grid Background="#FFE5E5E5">
-                        <StackPanel Orientation="Vertical">
-                            <Menu>
-                                <MenuItem Header="_Datei">
-                                    <MenuItem Header="_Neu" Command = "{Binding AddStundenCommand}"/>
-                                    <MenuItem Header="_Bearbeiten" Command="{Binding EditStundenCommand}"/>
-                                    <MenuItem Header="_Löschen" Command="{Binding DeleteStundenCommand}"/>
-                                </MenuItem>
-                            </Menu>
-                            <StackPanel Orientation="Horizontal">
-                                <Border BorderThickness="1" BorderBrush="Black">
-                                    <TextBlock Text = "Start Datum/Zeit" Width = "148" Margin = "3 5 3 5" TextAlignment="Center"/>
-                                </Border>
-                                <Border BorderThickness="1" BorderBrush="Black">
-                                    <TextBlock Text = "Ende Datum/Zeit" Width = "148" Margin = "0 5 3 5" TextAlignment="Center"/>
-                                </Border>
-                                <Border BorderThickness="1" BorderBrush="Black">
-                                    <TextBlock Text = "Pause" Width = "98" Margin = "0 5 3 5" TextAlignment="Center"/>
-                                </Border>
-                                <Border BorderThickness="1" BorderBrush="Black">
-                                    <TextBlock Text = "Arbeitszeit" Width = "98" Margin = "0 5 3 5" TextAlignment="Center"/>
-                                </Border>
-                            </StackPanel>
-                            <ListBox
-                                ItemsSource="{Binding Stunden}"
-                                SelectedItem="{Binding SelectedStunden}"
-                                ItemTemplate="{StaticResource stundenTemplate}"/>
-                        </StackPanel>
+                        <View:UCStundenMaster x:Name="ucStundenMaster"/>
                     </Grid>
                 </TabItem>
                 <TabItem Header="Veranstaltungen">
